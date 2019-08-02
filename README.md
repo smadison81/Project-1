@@ -1,4 +1,4 @@
-Day Trippin!
+Trippin!
 
 Team Captain America:	Ahmed Waheed, Stephen Madison, Duc Khang Nguyen
 

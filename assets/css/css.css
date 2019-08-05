@@ -1,0 +1,14 @@
+body {
+    background-image: url("../images/background-destop.jpg");
+  background-color: #cccccc;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+main{
+    width: 60%;
+    margin: 10% auto 0 auto;
+    color: white;
+}

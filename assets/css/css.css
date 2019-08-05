@@ -7,8 +7,9 @@ body {
   background-size: cover;
   position: relative;
 }
-main{
+.main{
     width: 60%;
     margin: 10% auto 0 auto;
     color: white;
 }
+

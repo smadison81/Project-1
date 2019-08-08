@@ -141,12 +141,6 @@ $(document).ready(function () {
 
         var token = "TB4LWRWVPSS75WH4DMMJ"
 
-        // var queryURL = "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=" + startDate + "T00:00:01Z&start_date.range_end=" + endDate + "T00:00:01Z&location.address=" + destination + "&location.within=20mi&expand=venue&token=" + token;
-        // Creating an AJAX call for the specific weather button being clicked
-
-
-       
-
 
     });
 
@@ -154,3 +148,29 @@ $(document).ready(function () {
 
 
 })
+
+
+
+const options = {
+    fuse_options : {
+        shouldSort: true,
+        threshold: 0.4,
+        maxPatternLength: 32,
+        keys: [{
+            name: "IATA",
+            weight: 0.6
+          },
+          {
+            name: "name",
+            weight: 0.4
+          },
+          {
+            name: "city",
+            weight: 0.2
+          }
+        ]
+      }
+  };
+  
+  AirportInput("to", options)
+  AirportInput("from", options)

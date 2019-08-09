@@ -9,20 +9,18 @@ $(document).ready(function () {
         "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=2019-08-08T00:00:01Z&start_date.range_end=2019-08-14T00:00:01Z&location.address=houston&location.within=20mi&expand=venue&token=TB4LWRWVPSS75WH4DMMJ",
         "method": "GET",
         "headers": {
-          "User-Agent": "PostmanRuntime/7.15.2",
           "Accept": "*/*",
+          "Access-Control-Allow-Origin" : "*",
+          "Access-Control-Allow-Headers" :"Authorization, Content-Type, Eventbrite-API-Waypoint-Token, Eventbrite-API-Deprecated-Features",
           "Cache-Control": "no-cache",
-          "Postman-Token": "b02ddef0-1feb-4f86-b0b9-16ed5d412b9a,94d435a1-0733-44f2-9b07-a24192fe5da5",
-          "Cookie": "mgrefby=; AS=904da408-1520-4f37-8b22-ffb9fa495913; mgref=typeins; G=v%3D2%26i%3De409e6a7-d582-4106-851b-eb14d8463d08%26a%3Dbcb%26s%3D3d015e0540d4378bb70feaca126a1a56f7b85be3; eblang=lo%3Den_US%26la%3Den-us; SS=AE3DLHTMba0WmdGjQRggMscD_oeSjktlZQ; SP=AGQgbblZRSiM3mT8g6xGLSKoux7SKdYMp19Ni2xhEPcmhC8O3U0x4f9RfEIxdKWnqaJ7EzrYPdrLuQh6DP4sEDEuJ8RY41pZVUTZqBOSAPubyvxjTBFpqrXtSVbBLwHulQtwDTIB1gYpGQ3IsGDtISoDPvDUfhUXErJIaPAD64hbjIVK3D8PbHV0e3M5TZujcqM_w3TKPqd_7cfrwuHj9ezWftR0Eus2Jzf786eeSZyYWA3hMocgkuk",
-          "Accept-Encoding": "gzip, deflate",
-          "Referer": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=2019-08-08T00:00:01Z&start_date.range_end=2019-08-14T00:00:01Z&location.address=houston&location.within=20mi&expand=venue&token=TB4LWRWVPSS75WH4DMMJ",
-          "Connection": "keep-alive",
+          "Postman-Token": "631c045a-8ecd-4fa1-a862-111084a04fa6,93fc455e-bb7a-4cb9-8464-1a9bad801696",
           "cache-control": "no-cache"
         }
       }
       
-      $.ajax(settings).done(function (response) {
+      $.ajax(settings).then(function (response) {
         console.log(response);
+        console.log(response.location.latitude)
       });
 
     function weatherDisplay(destination, startDate, los) {

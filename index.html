@@ -1,21 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <!-- Added a link to Bootstrap-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
-     <!-- Moment.js Reference -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/css.css">
-   
-    
-  </head>
-  <body>
 
 <head>
   <meta charset="UTF-8">
@@ -23,6 +7,13 @@
   <title></title>
   <!-- Added a link to Bootstrap-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+  <!-- Moment.js Reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+  <!-- Fontawesome -->
+  <script src="https://kit.fontawesome.com/588bfbb0a1.js"></script>
+
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/css.css">
 
@@ -31,98 +22,183 @@
 
 <body>
 
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Trippin</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="#">Features</a>
-          <a class="nav-item nav-link" href="#">Pricing</a>
-          <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/css.css">
 
-  <!--This area is being displayed until 'Start Trippin' button is clicked-->
-  <div id="planningContainer" class="main" style="display: block">
-    <form>
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="from">
-            <h4>From</h4>
-          </label>
-          <input type="text" class="form-control mx-sm-3" id="from" placeholder="From where...">
-        </div>
-        <div class="form-group col-md-2"></div>
-        <div class="form-group col-md-4">
-          <label for="to">
-            <h4>To</h4>
-          </label>
-          <input type="text" class="form-control mx-sm-3" id="to" placeholder="To where...">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <h4>Start date:</h4>
-          <input type="date" class="form-control mx-sm-3" name="startDate" id="startdt">
-        </div>
-        <div class="form-group col-md-2"></div>
-        <div class="form-group col-md-4">
-          <h4>End Date:</h4>
-          <input type="date" class="form-control mx-sm-3" name="endDate" id="enddt">
-        </div>
-      </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-1">
-          <h4>Quantity:</h4>
-          <input type="number" class="form-control mx-sm-3" name="quantity" min="1">
+  </head>
+
+  <body>
+
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Trippin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#">Features</a>
+            <a class="nav-item nav-link" href="#">Pricing</a>
+            <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </div>
         </div>
-        <div class="form-group col-md-8"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck">
-          <label class="form-check-label" for="gridCheck">
-            <p>Children Included</p>
-          </label>
+      </nav>
+    </header>
+
+    <!--This area is being displayed until 'Start Trippin' button is clicked-->
+    <div id="planningContainer" class="main" style="display: block">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="from">
+              <h4>From</h4>
+            </label>
+            <input type="text" class="form-control mx-sm-3" id="from" placeholder="From where...">
+          </div>
+          <div class="form-group col-md-2"></div>
+          <div class="form-group col-md-4">
+            <label for="to">
+              <h4>To</h4>
+            </label>
+            <input type="text" class="form-control mx-sm-3" id="to" placeholder="To where...">
+          </div>
         </div>
-      </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <h4>Start date:</h4>
+            <input type="date" class="form-control mx-sm-3" name="startDate" id="startdt">
+          </div>
+          <div class="form-group col-md-2"></div>
+          <div class="form-group col-md-4">
+            <h4>End Date:</h4>
+            <input type="date" class="form-control mx-sm-3" name="endDate" id="enddt">
+          </div>
+        </div>
 
-      <button type="button" class="btn btn-primary" id="trippinButton">
-        <h4>Start Trippin</h4>
-      </button>
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            <h4>Quantity:</h4>
+            <input type="number" class="form-control mx-sm-3" name="quantity" min="1">
+          </div>
+          <div class="form-group col-md-8"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+              <p>Children Included</p>
+            </label>
+          </div>
+        </div>
 
-    </form>
-  </div>
+        <button type="button" class="btn btn-primary" id="trippinButton">
+          <h4>Start Trippin</h4>
+        </button>
 
-  <!--This area is being hidden until 'Start Trippin' button is clicked-->
-  <div id="resultContainer" class="main" style="display: none">
-    <div id="flight" class="result">
-      <h3>Flights</h3>
+      </form>
     </div>
-    <div id="weather" class="result">
-      <h3>Weather</h3>
-    </div>
-    <div id="event" class="result">
-      <h3>Events</h3>
-    </div>
-  </div>
 
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <!--IATA Autocomplete js -->
-  <script src="https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js"></script>
-  <!-- Script link-->
-  <script src="assets/javascript/app.js"></script>
-  <!-- Script -->
+    <!--This area is being hidden until 'Start Trippin' button is clicked-->
+    <!-- <div id="resultContainer" class="main" style="display: none">
+      <div id="flight" class="result">
+        <h3>Flights</h3>
+      </div>
+      <div id="weather" class="result">
+        <h3>Weather</h3>
+      </div>
+      <div id="event" class="result">
+        <h3>Events</h3>
+       
+      </div>
+    </div> -->
 
-</body>
+    <div class="container d-none">
+      <div class="row">
+        <h3>Flights</h3>
+      </div>
+      <div class="row">
+        <div class="col" id="flight"></div>
+      </div>
+
+      <div class="row">
+        <h3>Weather</h3>
+      </div>
+      <div class="row">
+
+        <div class="col" id="weather"></div>
+      </div>
+
+      <div class="row d-flex bd-highlight mb-3">
+        <div class="mr-auto p-2 bd-highlight">
+          <h3>Events</h3>
+        </div>
+
+        <div class="p-2 bd-highlight">
+
+          <button type="button" class="btn btn-primary">
+            Search Results<span class="badge badge-light totalEvent"></span>
+          </button>
+          <button type="button" class="btn btn-primary">Primary</button>
+
+        </div>
+
+      </div>
+      <div class="row">
+
+        <div class="col" id="event"></div>
+
+      </div>
+
+      <div class="row justify-content-center">
+
+        <!-- pagination bar -->
+
+        <div class="pagination">
+          <a href="#" class="prev disabled pageno">Previous</a>
+          <ol>
+            <li class="active"><a href="#1" class="pageno">1</a></li>
+            <li><a href="#2" class="pageno">2</a></li>
+            <li><a href="#3" class="pageno">3</a></li>
+            <li><a href="#4" class="pageno">4</a></li>
+            <li><a href="#5" class="pageno">5</a></li>
+            <li><a href="#6" class="pageno">6</a></li>
+            <li><a href="#7" class="pageno">7</a></li>
+            <li><a href="#8" class="pageno">8</a></li>
+            <li><a href="#9" class="pageno">9</a></li>
+            <li><a href="#10" class="pageno">10</a></li>
+            <li><a href="#11" class="pageno">11</a></li>
+            <li><a href="#12" class="pageno">12</a></li>
+          </ol>
+          <a href="#" class="next pageno">Next</a>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--IATA Autocomplete js -->
+    <script src="https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js"></script>
+    <!-- Script link-->
+    <script src="assets/javascript/app.js"></script>
+    <!-- Script -->
+
+  </body>
 
 </html>

@@ -1,14 +1,72 @@
-// var destination = ""
 $(document).ready(function () {
 
     toLong = null;
     toLat = null;
     cityName = null;
 
+    // function to create truncated pagination
+    var CLASS_DISABLED = "disabled",
+        CLASS_ACTIVE = "active",
+        CLASS_SIBLING_ACTIVE = "active-sibling",
+        DATA_KEY = "pagination";
+
+
+    $(".pagination").each(initPagination);
+
+    function initPagination() {
+        var $this = $(this);
+
+        $this.data(DATA_KEY, $this.find("li").index(".active"));
+
+        $this.find(".prev").on("click", navigateSinglePage);
+        $this.find(".next").on("click", navigateSinglePage);
+        $this.find("li").on("click", function () {
+            var $parent = $(this).closest(".pagination");
+            $parent.data(DATA_KEY, $parent.find("li").index(this));
+            changePage.apply($parent);
+        });
+    }
+
+    function navigateSinglePage() {
+        if (!$(this).hasClass(CLASS_DISABLED)) {
+            var $parent = $(this).closest(".pagination"),
+                currActive = parseInt($parent.data("pagination"), 10);
+
+            currActive += 1 * ($(this).hasClass("prev") ? -1 : 1);
+            $parent.data(DATA_KEY, currActive);
+
+            changePage.apply($parent);
+        }
+    }
+
+    function changePage(currActive) {
+        var $list = $(this).find("li"),
+            currActive = parseInt($(this).data(DATA_KEY), 10);
+
+        $list.filter("." + CLASS_ACTIVE).removeClass(CLASS_ACTIVE);
+        $list.filter("." + CLASS_SIBLING_ACTIVE).removeClass(CLASS_SIBLING_ACTIVE);
+
+        $list.eq(currActive).addClass(CLASS_ACTIVE);
+
+        if (currActive === 0) {
+            $(this).find(".prev").addClass(CLASS_DISABLED);
+        } else {
+            $list.eq(currActive - 1).addClass(CLASS_SIBLING_ACTIVE);
+            $(this).find(".prev").removeClass(CLASS_DISABLED);
+        }
+
+        if (currActive == ($list.length - 1)) {
+            $(this).find(".next").addClass(CLASS_DISABLED);
+        } else {
+            $(this).find(".next").removeClass(CLASS_DISABLED);
+        }
+    }
+
     $('#trippinButton').click(function () {
         event.preventDefault();
         $('#resultContainer').css('display', 'block')
         $('#planningContainer').css('display', 'none')
+        $(".container").removeClass("d-none")
 
         var destination = $("#to").val().trim()
         console.log(destination);
@@ -35,32 +93,13 @@ $(document).ready(function () {
             return;
         }
 
+        // call weather API and display
         weatherDisplay(destination, startDate, los)
 
-        var token = "TB4LWRWVPSS75WH4DMMJ"
-
+        // call eventribe API and display icons
+        eventDisplay(startDate, endDate)
 
     });
-
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=2019-08-08T00:00:01Z&start_date.range_end=2019-08-14T00:00:01Z&location.address=houston&location.within=20mi&expand=venue&token=TB4LWRWVPSS75WH4DMMJ",
-        "method": "GET",
-        "headers": {
-          "Accept": "*/*",
-          "Access-Control-Allow-Origin" : "*",
-          "Access-Control-Allow-Headers" :"Authorization, Content-Type, Eventbrite-API-Waypoint-Token, Eventbrite-API-Deprecated-Features",
-          "Cache-Control": "no-cache",
-          "Postman-Token": "631c045a-8ecd-4fa1-a862-111084a04fa6,93fc455e-bb7a-4cb9-8464-1a9bad801696",
-          "cache-control": "no-cache"
-        }
-      }
-      
-      $.ajax(settings).then(function (response) {
-        console.log(response);
-        console.log(response.location.latitude)
-      });
 
     function weatherDisplay(destination, startDate, los) {
         console.log("city: " + destination + " date: " + startDate)
@@ -140,7 +179,7 @@ $(document).ready(function () {
 
                 iconFig.append(image)
                 iconFig.append(
-                    $("<h6>").html(weatherDate[j])
+                    $("<h6>").html(moment(weatherDate[j]).format("MMM-Do"))
                 )
                 iconFig.append(iconTemp)
                 iconFig.append(iconTempRange)
@@ -154,13 +193,76 @@ $(document).ready(function () {
     }
 
     function eventDisplay(startDate, endDate) {
-        console.log("hello")
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=" + startDate + "T00:00:01Z&start_date.range_end=" + endDate + "T00:00:01Z&location.longitude=" + toLong + "&location.latitude=" + toLat + "&location.within=20mi&expand=venue&token=TB4LWRWVPSS75WH4DMMJ",
+            "method": "GET",
+            "headers": {
+                "Accept": "*/*",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Authorization, Content-Type, Eventbrite-API-Waypoint-Token, Eventbrite-API-Deprecated-Features",
+                "Cache-Control": "no-cache",
+                "Postman-Token": "631c045a-8ecd-4fa1-a862-111084a04fa6,93fc455e-bb7a-4cb9-8464-1a9bad801696",
+                "cache-control": "no-cache"
+            }
+        }
+
+        $.ajax(settings).then(function (response) {
+            console.log(response);
+            // test response
+            console.log(response.location.latitude)
+            console.log(response.events.length)
+
+            for (var i = 0; i < 10; i++) {
+
+
+                var a = $("<div class= card>") //this is the parent div
+                a.addClass("mb-3")
+                a.css("max-width", "600px")
+
+                var b = $("<div class=row>")
+                b.addClass("no-gutters")
+
+                var c = $("<div class=col-md-4>")
+
+                var imgEvent = $("<img class=card-img>")
+                imgEvent.attr("src", response.events[i].logo.url)
+                imgEvent.css("height", "fit-content")
+
+                var d = $("<div class=col-md-8>")
+
+                var e = $("<div class=card-body>")
+
+                var f = $("<h5 class=card-title>")
+                f.html("<a href=" + response.events[i].url + " " + "target=_blank>" + response.events[i].name.text + "</a>") //title
+
+                var g = $("<h6 class= card-text>")
+                g.addClass("text-muted")
+                g.html(moment(response.events[i].start.local).format("ddd,MMM,Do,h:mm a"))
+
+                var h = $("<h6 class= card-text >")
+                h.addClass("text-muted")
+                h.html(response.events[i].venue.name + "," + response.events[i].venue.address.city + "," + response.events[i].venue.address.region)
+
+                e.append(f)
+                e.append(g)
+                e.append(h)
+
+                d.append(e)
+
+                c.append(imgEvent)
+
+                b.append(c)
+                b.append(d)
+
+                a.append(b)
+
+                $("#event").append(a)
+            }
+
+        });
     }
-
-
-
-
-
 
 })
 

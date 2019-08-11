@@ -66,7 +66,6 @@ $(document).ready(function () {
         event.preventDefault();
         $('#resultContainer').css('display', 'block')
         $('#planningContainer').css('display', 'none')
-        $(".container").removeClass("d-none")
 
         var destination = $("#to").val().trim()
         console.log(destination);

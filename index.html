@@ -121,68 +121,70 @@
       </div>
     </div> -->
 
-    <div class="container d-none">
+    <div class="container-fluid" id="resultContainer" style="display: none">
       <div class="row">
-        <h3>Flights</h3>
-      </div>
-      <div class="row">
-        <div class="col" id="flight"></div>
-      </div>
-
-      <div class="row">
-        <h3>Weather</h3>
-      </div>
-      <div class="row">
-
-        <div class="col" id="weather"></div>
-      </div>
-
-      <div class="row d-flex bd-highlight mb-3">
-        <div class="mr-auto p-2 bd-highlight">
-          <h3>Events</h3>
+        <div class="col-sm-2">
+          <div class="row text-center">
+            <h3>Flights</h3>
+          </div>
+          <div class="row">
+            <div class="col" id="flight"></div>
+          </div>
         </div>
+    
+        <div class="col-sm-8">
+          <div class="row text-center">
+              <div class="col">
+                <h3>Events</h3>
+              </div>
+          </div>
+          
+          <div class="row justify-content-center">
+              <button type="button" class="btn btn-primary">
+                  Search Results<span class="badge badge-light totalEvent"></span>
+              </button>
+              <button type="button" class="btn btn-primary">Primary</button>
 
-        <div class="p-2 bd-highlight">
-
-          <button type="button" class="btn btn-primary">
-            Search Results<span class="badge badge-light totalEvent"></span>
-          </button>
-          <button type="button" class="btn btn-primary">Primary</button>
-
+            </div>
+          
+  
+          <div class="row">
+            <div class="col" id="event"></div>
+          </div>
+  
+          <div class="row justify-content-center">
+            <!-- pagination bar -->
+            <div class="pagination">
+              <a href="#" class="prev disabled pageno">Previous</a>
+              <ol>
+                <li class="active"><a href="#1" class="pageno">1</a></li>
+                <li><a href="#2" class="pageno">2</a></li>
+                <li><a href="#3" class="pageno">3</a></li>
+                <li><a href="#4" class="pageno">4</a></li>
+                <li><a href="#5" class="pageno">5</a></li>
+                <li><a href="#6" class="pageno">6</a></li>
+                <li><a href="#7" class="pageno">7</a></li>
+                <li><a href="#8" class="pageno">8</a></li>
+                <li><a href="#9" class="pageno">9</a></li>
+                <li><a href="#10" class="pageno">10</a></li>
+                <li><a href="#11" class="pageno">11</a></li>
+                <li><a href="#12" class="pageno">12</a></li>
+              </ol>
+              <a href="#" class="next pageno">Next</a>
+            </div>
+          </div>
         </div>
-
-      </div>
-      <div class="row">
-
-        <div class="col" id="event"></div>
-
-      </div>
-
-      <div class="row justify-content-center">
-
-        <!-- pagination bar -->
-
-        <div class="pagination">
-          <a href="#" class="prev disabled pageno">Previous</a>
-          <ol>
-            <li class="active"><a href="#1" class="pageno">1</a></li>
-            <li><a href="#2" class="pageno">2</a></li>
-            <li><a href="#3" class="pageno">3</a></li>
-            <li><a href="#4" class="pageno">4</a></li>
-            <li><a href="#5" class="pageno">5</a></li>
-            <li><a href="#6" class="pageno">6</a></li>
-            <li><a href="#7" class="pageno">7</a></li>
-            <li><a href="#8" class="pageno">8</a></li>
-            <li><a href="#9" class="pageno">9</a></li>
-            <li><a href="#10" class="pageno">10</a></li>
-            <li><a href="#11" class="pageno">11</a></li>
-            <li><a href="#12" class="pageno">12</a></li>
-          </ol>
-          <a href="#" class="next pageno">Next</a>
+    
+        <div class="col-sm-2">
+                <div class="row text-center">
+                    <h3>Weather</h3>
+                  </div>
+                  <div class="row">
+            
+                    <div class="col" id="weather"></div>
+                  </div>
         </div>
-
       </div>
-
     </div>
 
 

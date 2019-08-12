@@ -107,71 +107,61 @@
       </form>
     </div>
 
-    <!--This area is being hidden until 'Start Trippin' button is clicked-->
-    <!-- <div id="resultContainer" class="main" style="display: none">
-      <div id="flight" class="result">
-        <h3>Flights</h3>
-      </div>
-      <div id="weather" class="result">
-        <h3>Weather</h3>
-      </div>
-      <div id="event" class="result">
-        <h3>Events</h3>
-       
-      </div>
-    </div> -->
+    
 
-    <div class="container d-none">
+    <div class="container-fluid" id="resultContainer" style="display: none">
       <div class="row">
-        <h3>Flights</h3>
-      </div>
-      <div class="row">
-        <div class="col" id="flight"></div>
-      </div>
-
-      <div class="row">
-        <h3>Weather</h3>
-      </div>
-      <div class="row">
-
-        <div class="col" id="weather"></div>
-      </div>
-
-      <div class="row d-flex bd-highlight mb-3">
-        <div class="mr-auto p-2 bd-highlight">
-          <h3>Events</h3>
+        <div class="col-sm-2">
+          <div class="row text-center">
+            <h3>Flights</h3>
+          </div>
+          <div class="row">
+            <div class="col" id="flight"></div>
+          </div>
         </div>
+    
+        <div class="col-sm-8">
+          <div class="row text-center">
+              <div class="col">
+                <h3>Events</h3>
+              </div>
+          </div>
+          
+          <div class="row justify-content-center">
+              <button type="button" class="btn btn-primary">
+                  Search Results<span class="badge badge-light totalEvent"></span>
+              </button>
+              <button type="button" class="btn btn-primary">Primary</button>
 
-        <div class="p-2 bd-highlight">
-
-          <button type="button" class="btn btn-primary">
-            Search Results<span class="badge badge-light totalEvent"></span>
-          </button>
-          <button type="button" class="btn btn-primary">Filter</button>
-
+            </div>
+          
+  
+          <div class="row">
+            <div class="col" id="event"></div>
+          </div>
+  
+          <div class="row justify-content-center">
+            <!-- pagination bar -->
+            <div class="pagination">
+              <a href="#" class="prev disabled pageno">Previous</a>
+              <ol id="pagelist">
+               <!-- Dynaminally create page numbers --> 
+              </ol>
+              <a href="#" class="next " id="next">Next</a>
+            </div>
+          </div>
         </div>
-
-      </div>
-      <div class="row">
-
-        <div class="col" id="event"></div>
-
-      </div>
-
-      <div class="row justify-content-center">
-
-        <!-- pagination bar -->
-
-        <div class="pagination">
-          <a href="#" class="prev disabled ">Prev</a>
-          <ol id="pagelist">
-           <!-- Dynaminally create page numbers -->
-          </ol>
-          <a href="#" class="next " id="next">Next</a>
+    
+        <div class="col-sm-2">
+                <div class="row text-center">
+                    <h3>Weather</h3>
+                  </div>
+                  <div class="row">
+            
+                    <div class="col" id="weather"></div>
+                  </div>
         </div>
-
       </div>
-
     </div>
 
 

@@ -14,6 +14,18 @@ body {
   color: white;
 }
 
+#resultContainer {
+  width: 100%;
+  margin: 10px;
+  color: white;
+}
+button {
+  margin: 10px;
+}
+.card {
+  float: left;
+  margin: 5px;
+}
 .autocomplete-wrapper {
   position: relative;
 }

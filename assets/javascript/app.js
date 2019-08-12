@@ -3,6 +3,12 @@ $(document).ready(function () {
     toLong = null;
     toLat = null;
     cityName = null;
+    var amadeusAccessToken = "q1ALrqA4I69mO9hYtFMUCTGATR5N"
+    var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
+    var toCity = null;
+    var fromCity = null;
+    var startDate = null
+    var endDate = null
 
     // function to create truncated pagination
     var CLASS_DISABLED = "disabled",
@@ -71,15 +77,18 @@ $(document).ready(function () {
         console.log(destination);
 
         // grab start date
-        var startDate = $("#startdt").val();
+        startDate = $("#startdt").val();
 
         //  grab end date
-        var endDate = $("#enddt").val();
+        endDate = $("#enddt").val();
 
         // grab destination longitude
 
         toLong = $("#to").data("lon")
         toLat = $("#to").data("lat")
+
+        toCity = $("#to").data("iata")
+        fromCity = $("#from").data("iata")
 
         console.log(toLong)
         console.log(toLat)
@@ -97,6 +106,8 @@ $(document).ready(function () {
 
         // call eventribe API and display icons
         eventDisplay(startDate, endDate)
+
+        flightDisplay()
 
     });
 
@@ -263,15 +274,75 @@ $(document).ready(function () {
         });
     }
 
-})
+    function flightDisplay() {
+        $.ajax({
+            type: "get",
+            url: webUrl + fromCity + "&destination=" + toCity + "&departureDate=" + startDate +
+                "&returnDate=" + endDate + "&max=5&nonStop=true",
+            dataType: 'json',
+            async: true,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization',
+                    'Bearer ' + amadeusAccessToken);
+            },
+            success: function (json) {
 
+                console.log(json)
+                loadFlights(json)
+            }
+        });
+    }
 
-const options = {
-    fuse_options: {
-        shouldSort: true,
-        threshold: 0.4,
-        maxPatternLength: 32,
-        keys: [{
+    function loadFlights(flights) {
+
+        //loop over all of the flight data.
+        for (var i = 0; i < flights.data.length; i++) {
+
+            // get the current flight offer
+            var flightOffer = flights.data[i];
+
+            // read in the price, tax and calculate the total cost.
+            var price = parseFloat(flightOffer.offerItems.price.total);
+            var tax = parseFloat(flightOffer.OfferItems.price.totalTaxes);
+            var totalPrice = price + tax;
+
+            // create a new html element to hold the flight details.
+            var flightSection = document.createElement('div');
+
+            // set the id to the flight offer id.
+            flightSection.setAttribute("id", flightOffer.id);
+
+            // get all of the flight segments.
+            var segments = flightOffer.offerItems.segments;
+
+            // loop over the segments.
+            for (var j = 0; j <= segments.length; j++) {
+
+                // get the current segment
+                var flightSegment = segments[j];
+
+                // set the inner html for with the current flight and segment information.
+                flightSection.innerHTML = `<div id='${flightOffer.id}'>
+                                        <div>Departure Location: ${flightSegment.departure.iataCode}</div>
+                                        <div>Departure time: ${flightSegment.departure.at}</div>
+                                        <hr />
+                                        <div>Arrival Location: ${flightSegment.arrival.iataCode}</div>
+                                        <div>Arrival time: ${flightSection.arrival.at}</div>
+                                        <div>Price per adult: ${totalPrice}</div>
+                                    </div>`;
+
+                // add the new flight section to the div in the html
+                document.getElementById('flight').append(flightSection);
+            }
+        }
+    }
+
+    const options = {
+        fuse_options: {
+            shouldSort: true,
+            threshold: 0.4,
+            maxPatternLength: 32,
+            keys: [{
                 name: "IATA",
                 weight: 0.6
             },
@@ -283,9 +354,10 @@ const options = {
                 name: "city",
                 weight: 0.2
             }
-        ]
-    }
-};
+            ]
+        }
+    };
 
-AirportInput("to", options)
-AirportInput("from", options)
+    AirportInput("to", options)
+    AirportInput("from", options)
+})

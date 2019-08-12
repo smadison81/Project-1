@@ -3,6 +3,12 @@ $(document).ready(function () {
     toLong = null;
     toLat = null;
     cityName = null;
+    // eventbrite page count
+    var pageCount
+    var startDate
+    var endDate
+    var x
+    var totPageCount
     var amadeusAccessToken = "q1ALrqA4I69mO9hYtFMUCTGATR5N"
     var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
     var toCity = null;
@@ -26,10 +32,13 @@ $(document).ready(function () {
 
         $this.find(".prev").on("click", navigateSinglePage);
         $this.find(".next").on("click", navigateSinglePage);
-        $this.find("li").on("click", function () {
+        $(document).on("click", "li", function () {
+            pageCount = $(this).attr("value")
+            console.log("pageCount: " + pageCount)
             var $parent = $(this).closest(".pagination");
             $parent.data(DATA_KEY, $parent.find("li").index(this));
             changePage.apply($parent);
+            eventDisplay(startDate, endDate, pageCount)
         });
     }
 
@@ -43,6 +52,7 @@ $(document).ready(function () {
 
             changePage.apply($parent);
         }
+        eventDisplay(startDate, endDate, x)
     }
 
     function changePage(currActive) {
@@ -53,6 +63,8 @@ $(document).ready(function () {
         $list.filter("." + CLASS_SIBLING_ACTIVE).removeClass(CLASS_SIBLING_ACTIVE);
 
         $list.eq(currActive).addClass(CLASS_ACTIVE);
+        x = $list.eq(currActive).attr("value")
+        console.log("page x: " + x)
 
         if (currActive === 0) {
             $(this).find(".prev").addClass(CLASS_DISABLED);
@@ -67,6 +79,7 @@ $(document).ready(function () {
             $(this).find(".next").removeClass(CLASS_DISABLED);
         }
     }
+
 
     $('#trippinButton').click(function () {
         event.preventDefault();
@@ -202,11 +215,13 @@ $(document).ready(function () {
         });
     }
 
-    function eventDisplay(startDate, endDate) {
+    function eventDisplay(startDate, endDate, pageCount, callback) {
+        // clear div
+        $("#event").empty()
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=" + startDate + "T00:00:01Z&start_date.range_end=" + endDate + "T00:00:01Z&location.longitude=" + toLong + "&location.latitude=" + toLat + "&location.within=20mi&expand=venue&token=TB4LWRWVPSS75WH4DMMJ",
+            "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=" + startDate + "T00:00:01Z&start_date.range_end=" + endDate + "T00:00:01Z&location.longitude=" + toLong + "&location.latitude=" + toLat + "&location.within=20mi&expand=venue&page=" + pageCount + "&token=TB4LWRWVPSS75WH4DMMJ",
             "method": "GET",
             "headers": {
                 "Accept": "*/*",
@@ -224,7 +239,11 @@ $(document).ready(function () {
             console.log(response.location.latitude)
             console.log(response.events.length)
 
-            for (var i = 0; i < 10; i++) {
+            $(".totalEvent").html(response.pagination.object_count)
+            totPageCount = response.pagination.page_count
+            console.log("button:" + totPageCount)
+
+            for (var i = 0; i < response.events.length; i++) {
 
 
                 var a = $("<div class= card>") //this is the parent div
@@ -269,10 +288,72 @@ $(document).ready(function () {
                 a.append(b)
 
                 $("#event").append(a)
+
+                // dynamically create truncated pagination
+
             }
 
+            callback()
         });
     }
+
+    function createPagination() {
+        for (var i = 1; i <= totPageCount; i++) {
+            var a = $("<li>")
+            if (i === 1) {
+                a.addClass("active")
+                a.attr("value", [i])
+                a.html("<a href=#" + [i] + " " + "class=pageno>" + [i] + "</a>")
+                $("#pagelist").append(a)
+            } else {
+                a.attr("value", [i])
+                a.html("<a href=#" + [i] + " " + "class=pageno>" + [i] + "</a>")
+                $("#pagelist").append(a)
+            }
+        }
+    }
+
+
+    $('#trippinButton').click(function () {
+        event.preventDefault();
+        $('#resultContainer').css('display', 'block')
+        $('#planningContainer').css('display', 'none')
+        $(".container").removeClass("d-none")
+
+        var destination = $("#to").val().trim()
+        console.log(destination);
+
+        // grab start date
+        startDate = $("#startdt").val();
+
+        //  grab end date
+        endDate = $("#enddt").val();
+
+        // grab destination longitude
+
+        toLong = $("#to").data("lon")
+        toLat = $("#to").data("lat")
+
+        console.log(toLong)
+        console.log(toLat)
+
+        var los = moment(endDate).diff(moment(startDate), "days")
+        console.log("LOS: " + los)
+
+        if (los > 16) {
+            alert("Please choose your length of stay less then 16 days")
+            return;
+        }
+
+        // call weather API and display
+        weatherDisplay(destination, startDate, los)
+
+        // call eventribe API and display icons
+        pageCount = 1
+        eventDisplay(startDate, endDate, pageCount, createPagination)
+
+    });
+
 
     function flightDisplay() {
         $.ajax({
@@ -323,13 +404,13 @@ $(document).ready(function () {
 
                 // set the inner html for with the current flight and segment information.
                 flightSection.innerHTML = `<div id='${flightOffer.id}'>
-                                        <div>Departure Location: ${flightSegment.departure.iataCode}</div>
-                                        <div>Departure time: ${flightSegment.departure.at}</div>
-                                        <hr />
-                                        <div>Arrival Location: ${flightSegment.arrival.iataCode}</div>
-                                        <div>Arrival time: ${flightSection.arrival.at}</div>
+                <div>Departure Location: ${flightSegment.departure.iataCode}</div>
+                <div>Departure time: ${flightSegment.departure.at}</div>
+                <hr />
+                <div>Arrival Location: ${flightSegment.arrival.iataCode}</div>
+                <div>Arrival time: ${flightSection.arrival.at}</div>
                                         <div>Price per adult: ${totalPrice}</div>
-                                    </div>`;
+                                        </div>`;
 
                 // add the new flight section to the div in the html
                 document.getElementById('flight').append(flightSection);
@@ -343,21 +424,23 @@ $(document).ready(function () {
             threshold: 0.4,
             maxPatternLength: 32,
             keys: [{
-                name: "IATA",
-                weight: 0.6
-            },
-            {
-                name: "name",
-                weight: 0.4
-            },
-            {
-                name: "city",
-                weight: 0.2
-            }
+                    name: "IATA",
+                    weight: 0.6
+                },
+                {
+                    name: "name",
+                    weight: 0.4
+                },
+                {
+                    name: "city",
+                    weight: 0.2
+                }
             ]
         }
     };
 
     AirportInput("to", options)
     AirportInput("from", options)
+
+
 })

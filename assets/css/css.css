@@ -115,7 +115,7 @@ body {
   color: white;
 }
 
-
+/* CSS to truncate the pagination */
 .pagination {
   margin: 20px 0 0;
   font-size: 0;
@@ -169,10 +169,33 @@ li.active a:hover {
 
 .prev {
   margin-right: 2.5px;
+  text-decoration: none;
+  color: #000;
+  display: inline-block;
+  background: #ccc;
+  border: 1px solid #000;
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.prev:hover {
+  text-decoration: underline;
 }
 
 .next {
   margin-left: 2.5px;
+  text-decoration: none;
+  color: #000;
+  display: inline-block;
+  background: #ccc;
+  border: 1px solid #000;
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.next:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 767px) {

@@ -3,6 +3,12 @@ $(document).ready(function () {
     toLong = null;
     toLat = null;
     cityName = null;
+    // eventbrite page count
+    var pageCount
+    var startDate
+    var endDate
+    var x
+    var totPageCount
 
     // function to create truncated pagination
     var CLASS_DISABLED = "disabled",
@@ -20,10 +26,13 @@ $(document).ready(function () {
 
         $this.find(".prev").on("click", navigateSinglePage);
         $this.find(".next").on("click", navigateSinglePage);
-        $this.find("li").on("click", function () {
+        $(document).on("click", "li", function () {
+            pageCount = $(this).attr("value")
+            console.log("pageCount: " + pageCount)
             var $parent = $(this).closest(".pagination");
             $parent.data(DATA_KEY, $parent.find("li").index(this));
             changePage.apply($parent);
+            eventDisplay(startDate, endDate, pageCount)
         });
     }
 
@@ -37,6 +46,7 @@ $(document).ready(function () {
 
             changePage.apply($parent);
         }
+        eventDisplay(startDate, endDate, x)
     }
 
     function changePage(currActive) {
@@ -47,6 +57,8 @@ $(document).ready(function () {
         $list.filter("." + CLASS_SIBLING_ACTIVE).removeClass(CLASS_SIBLING_ACTIVE);
 
         $list.eq(currActive).addClass(CLASS_ACTIVE);
+        x=$list.eq(currActive).attr("value")
+        console.log("page x: " +x)
 
         if (currActive === 0) {
             $(this).find(".prev").addClass(CLASS_DISABLED);
@@ -62,48 +74,10 @@ $(document).ready(function () {
         }
     }
 
-    $('#trippinButton').click(function () {
-        event.preventDefault();
-        $('#resultContainer').css('display', 'block')
-        $('#planningContainer').css('display', 'none')
-        $(".container").removeClass("d-none")
-
-        var destination = $("#to").val().trim()
-        console.log(destination);
-
-        // grab start date
-        var startDate = $("#startdt").val();
-
-        //  grab end date
-        var endDate = $("#enddt").val();
-
-        // grab destination longitude
-
-        toLong = $("#to").data("lon")
-        toLat = $("#to").data("lat")
-
-        console.log(toLong)
-        console.log(toLat)
-
-        var los = moment(endDate).diff(moment(startDate), "days")
-        console.log("LOS: " + los)
-
-        if (los > 16) {
-            alert("Please choose your length of stay less then 16 days")
-            return;
-        }
-
-        // call weather API and display
-        weatherDisplay(destination, startDate, los)
-
-        // call eventribe API and display icons
-        eventDisplay(startDate, endDate)
-
-    });
-
+    
     function weatherDisplay(destination, startDate, los) {
         console.log("city: " + destination + " date: " + startDate)
-
+        
         var apiKey = "69cdf8b4bec4466698885c67324ab8c2"
         // var city = "houston,TX"
         // var counytryID = "us"
@@ -122,14 +96,14 @@ $(document).ready(function () {
             var weatherTemp = []
             var weatherMin = []
             var weatherMax = []
-
+            
             cityName = response.city_name;
             console.log(cityName)
 
 
-
+            
             for (var i = 0; i < response.data.length; i++) {
-
+                
                 if (moment(response.data[i].valid_date).unix() === moment(startDate).unix()) {
                     break;
                 }
@@ -155,7 +129,7 @@ $(document).ready(function () {
 
             for (var j = 0; j < weatherIcon.length; j++) {
                 var iconURL = "https://www.weatherbit.io/static/img/icons/" + weatherIcon[j] + ".png"
-
+                
                 var iconDiv = $("<div class='icon float-left'>");
                 var iconFig = $("<figure>")
                 iconFig.addClass("figure text-center")
@@ -163,7 +137,7 @@ $(document).ready(function () {
                 var iconTemp = $("<figcaption>")
                 iconTemp.addClass("figure-caption")
                 iconTemp.html(weatherTemp[j])
-
+                
 
                 var iconTempRange = $("<figcaption>")
                 iconTempRange.addClass("figure-caption")
@@ -176,27 +150,29 @@ $(document).ready(function () {
                 var image = $("<img>");
                 image.addClass("figure-img img-fluid text-center")
                 image.attr("src", iconURL)
-
+                
                 iconFig.append(image)
                 iconFig.append(
                     $("<h6>").html(moment(weatherDate[j]).format("MMM-Do"))
-                )
-                iconFig.append(iconTemp)
-                iconFig.append(iconTempRange)
+                    )
+                    iconFig.append(iconTemp)
+                    iconFig.append(iconTempRange)
                 iconFig.append(iconCaption)
-
+                
                 iconDiv.append(iconFig)
                 $("#weather").append(iconDiv)
 
             }
         });
     }
-
-    function eventDisplay(startDate, endDate) {
+    
+    function eventDisplay(startDate, endDate, pageCount, callback) {
+        // clear div
+        $("#event").empty()
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=" + startDate + "T00:00:01Z&start_date.range_end=" + endDate + "T00:00:01Z&location.longitude=" + toLong + "&location.latitude=" + toLat + "&location.within=20mi&expand=venue&token=TB4LWRWVPSS75WH4DMMJ",
+            "url": "https://www.eventbriteapi.com/v3/events/search?start_date.range_start=" + startDate + "T00:00:01Z&start_date.range_end=" + endDate + "T00:00:01Z&location.longitude=" + toLong + "&location.latitude=" + toLat + "&location.within=20mi&expand=venue&page=" + pageCount + "&token=TB4LWRWVPSS75WH4DMMJ",
             "method": "GET",
             "headers": {
                 "Accept": "*/*",
@@ -207,16 +183,20 @@ $(document).ready(function () {
                 "cache-control": "no-cache"
             }
         }
-
+        
         $.ajax(settings).then(function (response) {
             console.log(response);
             // test response
             console.log(response.location.latitude)
             console.log(response.events.length)
 
-            for (var i = 0; i < 10; i++) {
+            $(".totalEvent").html(response.pagination.object_count)
+            totPageCount=response.pagination.page_count
+            console.log("button:" +totPageCount)
+            
+            for (var i = 0; i < response.events.length; i++) {
 
-
+                
                 var a = $("<div class= card>") //this is the parent div
                 a.addClass("mb-3")
                 a.css("max-width", "600px")
@@ -225,15 +205,15 @@ $(document).ready(function () {
                 b.addClass("no-gutters")
 
                 var c = $("<div class=col-md-4>")
-
+                
                 var imgEvent = $("<img class=card-img>")
                 imgEvent.attr("src", response.events[i].logo.url)
                 imgEvent.css("height", "fit-content")
-
+                
                 var d = $("<div class=col-md-8>")
 
                 var e = $("<div class=card-body>")
-
+                
                 var f = $("<h5 class=card-title>")
                 f.html("<a href=" + response.events[i].url + " " + "target=_blank>" + response.events[i].name.text + "</a>") //title
 
@@ -250,20 +230,82 @@ $(document).ready(function () {
                 e.append(h)
 
                 d.append(e)
-
+                
                 c.append(imgEvent)
-
+                
                 b.append(c)
                 b.append(d)
-
+                
                 a.append(b)
-
+                
                 $("#event").append(a)
+                
+                // dynamically create truncated pagination
+                
             }
-
+            
+            callback()
         });
     }
+    
+    function createPagination() {
+        for (var i = 1; i <=totPageCount ; i++) {
+            var a = $("<li>")
+            if (i === 1) {
+                a.addClass("active")
+                a.attr("value", [i])
+                a.html("<a href=#" + [i] + " " + "class=pageno>" + [i] + "</a>")
+                $("#pagelist").append(a)
+            } else {
+                a.attr("value", [i])
+                a.html("<a href=#" + [i] + " " + "class=pageno>" + [i] + "</a>")
+                $("#pagelist").append(a)
+            }
+        }
+    }
+    
+    
+    $('#trippinButton').click(function () {
+        event.preventDefault();
+        $('#resultContainer').css('display', 'block')
+        $('#planningContainer').css('display', 'none')
+        $(".container").removeClass("d-none")
 
+        var destination = $("#to").val().trim()
+        console.log(destination);
+
+        // grab start date
+        startDate = $("#startdt").val();
+
+        //  grab end date
+        endDate = $("#enddt").val();
+
+        // grab destination longitude
+
+        toLong = $("#to").data("lon")
+        toLat = $("#to").data("lat")
+
+        console.log(toLong)
+        console.log(toLat)
+
+        var los = moment(endDate).diff(moment(startDate), "days")
+        console.log("LOS: " + los)
+
+        if (los > 16) {
+            alert("Please choose your length of stay less then 16 days")
+            return;
+        }
+
+        // call weather API and display
+        weatherDisplay(destination, startDate, los)
+        
+        // call eventribe API and display icons
+        pageCount = 1
+        eventDisplay(startDate, endDate, pageCount,createPagination)
+                    
+    });
+    
+    
 })
 
 

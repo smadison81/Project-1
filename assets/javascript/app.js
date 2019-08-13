@@ -161,7 +161,7 @@ $(document).ready(function () {
             return false
         }
 
-        if (moment(startDate).diff(moment(), "days")){
+        if ((moment(startDate).diff(moment(), "days"))>16){
             $('#myModal').modal({
                 show: true
             });

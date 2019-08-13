@@ -17,7 +17,6 @@
   <!-- CSS -->
   <link rel="stylesheet" href="assets/css/css.css">
 
-
 </head>
 
 <body>
@@ -31,7 +30,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/css.css">
 
-
   </head>
 
   <body>
@@ -39,18 +37,6 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Trippin</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Features</a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
-            <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </div>
-        </div>
       </nav>
     </header>
 
@@ -116,7 +102,8 @@
             <h3>Flights</h3>
           </div>
           <div class="row">
-            <div class="col" id="flight"></div>
+            <div class="col" id="departures"></div>
+            <div class="col" id="returns"></div>
           </div>
         </div>
     
@@ -126,12 +113,49 @@
                 <h3>Events</h3>
               </div>
           </div>
-          
+          <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn">&times;</a>
+            <div class="dropdownbtnContainer">
+              <button class="dropdown-btn">Category 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-container" style="display: none">
+                <a href="#" value="category-id/118">Auto, Boat &amp; Air</a>
+                <a href="#" value="category-id/101">Business</a>
+                <a href="#" value="category-id/111">Charity &amp; Causes</a>
+                <a href="#" value="category-id/113">Community</a>
+                <a href="#" value="category-id/115">Family &amp; Education</a>
+                <a href="#" value="category-id/106">Fashion</a>
+                <a href="#" value="category-id/104">Film &amp; Media</a>
+                <a href="#" value="category-id/110">Food &amp; Drink</a>
+                <a href="#" value="category-id/112">Government</a>
+                <a href="#" value="category-id/107">Health</a>
+                <a href="#" value="category-id/119">Hobbies</a>
+                <a href="#" value="category-id/116">Holiday</a>
+                <a href="#" value="category-id/117">Home &amp; Lifestyle</a>
+                <a href="#" value="category-id/103">Music</a>
+                <a href="#" value="category-id/105">Performing &amp; Visual Arts</a>
+                <a href="#" value="category-id/120">School Activities</a>
+                <a href="#" value="category-id/102">Science &amp; Tech</a>
+                <a href="#" value="category-id/114">Spirituality</a>
+                <a href="#" value="category-id/108">Sports &amp; Fitness</a>
+                <a href="#" value="category-id/109">Travel &amp; Outdoor</a>
+                <a href="#" value="category-id/199">Other</a>
+              </div>
+              <button class="dropdown-btn">Event Type 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-container" style="display: none">
+                <a id="paidEvent" href="#">Paid</a>
+                <a id="freeEvent" href="#">Free</a>
+              </div>
+            </div>
+          </div>
           <div class="row justify-content-center">
               <button type="button" class="btn btn-primary">
                   Search Results<span class="badge badge-light totalEvent"></span>
               </button>
-              <button type="button" class="btn btn-primary">Primary</button>
+              <button type="button" class="btn btn-primary" id="filterbtn" state="unclicked">Filter</button>
 
             </div>
           
@@ -169,7 +193,6 @@
 
 
 
-
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!--IATA Autocomplete js -->
@@ -181,3 +204,4 @@
   </body>
 
 </html>
+

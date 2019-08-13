@@ -8,14 +8,18 @@ $(document).ready(function () {
     var pageCount
     var startDate
     var endDate
+    var los
     var x
     var totPageCount
+
     var amadeusAccessToken = "UpurWukJi99JxeE2EqTAfOOcSAsH"
+
     var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
     var toCity = null;
     var fromCity = null;
     var startDate = null
     var endDate = null
+
 
     // function to create truncated pagination
     var CLASS_DISABLED = "disabled",
@@ -38,7 +42,7 @@ $(document).ready(function () {
             var $parent = $(this).closest(".pagination");
             $parent.data(DATA_KEY, $parent.find("li").index(this));
             changePage.apply($parent);
-            eventDisplay(startDate, endDate, pageCount)
+            eventDisplay(startDate, endDate, pageCount,function(){})
         });
     }
 
@@ -52,7 +56,7 @@ $(document).ready(function () {
 
             changePage.apply($parent);
         }
-        eventDisplay(startDate, endDate, x)
+        eventDisplay(startDate, endDate, x,function(){})
     }
 
     function changePage(currActive) {
@@ -82,8 +86,7 @@ $(document).ready(function () {
 
     $('#trippinButton').click(function () {
         event.preventDefault();
-        $('#resultContainer').css('display', 'block')
-        $('#planningContainer').css('display', 'none')
+       
 
         var destination = $("#to").val().trim()
         console.log(destination);
@@ -105,23 +108,78 @@ $(document).ready(function () {
         console.log(toLong)
         console.log(toLat)
 
-        var los = moment(endDate).diff(moment(startDate), "days")
+        los = moment(endDate).diff(moment(startDate), "days")
         console.log("LOS: " + los)
 
-        if (los > 16) {
-            alert("Please choose your length of stay less then 16 days")
-            return;
+        // form validation check data inputs
+
+        var formValue=formValidation()
+        if (formValue==false){
+            return
         }
+
+        $('#resultContainer').css('display', 'block')
+        $('#planningContainer').css('display', 'none')
 
         // call weather API and display
         weatherDisplay(destination, startDate, los)
 
         // call eventribe API and display icons
-        eventDisplay(startDate, endDate)
+        pageCount = 1
+        eventDisplay(startDate, endDate, pageCount, createPagination)
 
         flightDisplay()
 
     });
+
+    function formValidation(){
+        if (fromCity==""|| toCity=="" ||startDate==""|| endDate==""){
+            $('#myModal').modal({
+                show: true
+            });
+            $(".modal-title").html("Fields missing")
+            $(".modal-body").html("Make sure that fields are not empty")
+            return false
+        }
+        var todayDate=moment().format("YYYY-MM-DD")
+        console.log(todayDate)
+        if(moment(startDate).isBefore(todayDate) || startDate==endDate || moment(endDate).isBefore(startDate)) {
+            $('#myModal').modal({
+                show: true
+            });
+            $(".modal-title").html("Date of Travel")
+            $(".modal-body").html("Please make sure that the travel dates are correct")
+            return false
+        }
+
+        if(toCity==fromCity){
+            $('#myModal').modal({
+                show: true
+            });
+            $(".modal-title").html("Orgin Destination")
+            $(".modal-body").html("Origin & Destination city cannot be the same")
+            return false
+        }
+
+        if (moment(startDate).diff(moment(), "days")){
+            $('#myModal').modal({
+                show: true
+            });
+            $(".modal-title").html("Trip Planning")
+            $(".modal-body").html("Please ensure that the start date is not 16 days into the future")
+            return false
+        }
+
+        if (los > 16) {
+           
+            $('#myModal').modal({
+                show: true
+            });
+            $(".modal-title").html("Length of Stay")
+            $(".modal-body").html("Lenght of stay cannot exceed more then 16 days")
+            return false
+        }
+    }
 
     function weatherDisplay(destination, startDate, los) {
         console.log("city: " + destination + " date: " + startDate)
@@ -147,6 +205,7 @@ $(document).ready(function () {
 
             cityName = response.city_name;
             console.log(cityName)
+
 
 
             for (var i = 0; i < response.data.length; i++) {
@@ -184,6 +243,7 @@ $(document).ready(function () {
                 var iconTemp = $("<figcaption>")
                 iconTemp.addClass("figure-caption")
                 iconTemp.html(weatherTemp[j])
+
 
                 var iconTempRange = $("<figcaption>")
                 iconTempRange.addClass("figure-caption")
@@ -239,8 +299,10 @@ $(document).ready(function () {
             $(".totalEvent").html(response.pagination.object_count)
             totPageCount = response.pagination.page_count
             console.log("button:" + totPageCount)
+            callback()
 
-            for (var i = 0; i < response.events.length; i++) {
+            for (var i = 0; i < 10; i++) {
+
 
                 var a = $("<div class= card>") //this is the parent div
                 a.addClass("mb-3")
@@ -289,11 +351,11 @@ $(document).ready(function () {
 
             }
 
-            callback()
         });
     }
 
     function createPagination() {
+        $("#pagelist").empty()
         for (var i = 1; i <= totPageCount; i++) {
             var a = $("<li>")
             if (i === 1) {
@@ -308,6 +370,7 @@ $(document).ready(function () {
             }
         }
     }
+
 
     $('#trippinButton').click(function () {
         event.preventDefault();
@@ -347,6 +410,7 @@ $(document).ready(function () {
         eventDisplay(startDate, endDate, pageCount, createPagination)
 
     });
+
 
     function flightDisplay() {
         $.ajax({

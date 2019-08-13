@@ -10,7 +10,7 @@ $(document).ready(function () {
     var endDate
     var x
     var totPageCount
-    var amadeusAccessToken = "LMWpdN5IvM1SUrsgIMYW5APUIuPg"
+    var amadeusAccessToken = "UpurWukJi99JxeE2EqTAfOOcSAsH"
     var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
     var toCity = null;
     var fromCity = null;
@@ -259,14 +259,14 @@ $(document).ready(function () {
 
                 var e = $("<div class=card-body>")
 
-                var f = $("<h5 class=card-title>")
+                var f = $("<h6 class=card-title>")
                 f.html("<a href=" + response.events[i].url + " " + "target=_blank>" + response.events[i].name.text + "</a>") //title
 
-                var g = $("<h6 class= card-text>")
+                var g = $("<p class= card-text>")
                 g.addClass("text-muted")
                 g.html(moment(response.events[i].start.local).format("ddd,MMM,Do,h:mm a"))
 
-                var h = $("<h6 class= card-text >")
+                var h = $("<p class= card-text >")
                 h.addClass("text-muted")
                 h.html(response.events[i].venue.name + "," + response.events[i].venue.address.city + "," + response.events[i].venue.address.region)
 
@@ -313,7 +313,6 @@ $(document).ready(function () {
         event.preventDefault();
         $('#resultContainer').css('display', 'block')
         $('#planningContainer').css('display', 'none')
-        $(".container").removeClass("d-none")
 
         var destination = $("#to").val().trim()
         console.log(destination);
@@ -495,6 +494,26 @@ $(document).ready(function () {
       });
     }
     //++++++++++++++++ END +++++++++++++++++++++++++++
+    
+    window.onscroll = function() {scrollFunction()};
+    $('#myBtn').click(topFunction);
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+      } else {
+        document.getElementById("myBtn").style.display = "none";
+      }
+    }
 
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+//+++++++++++++++++++ Back top button+++++++++++++++
+    $('.logo').click(function(){
+        $('#resultContainer').css('display', 'none')
+        $('#planningContainer').css('display', 'block')
+    })
 })
 

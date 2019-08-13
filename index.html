@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Pacifico|Questrial&display=swap" rel="stylesheet">
   <!-- Added a link to Bootstrap-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
@@ -35,8 +36,11 @@
   <body>
 
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Trippin</a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
+        <a class="navbar-brand logo" href="#">
+          <h1>Trippin</h1>
+        </a>
+        
       </nav>
     </header>
 
@@ -97,7 +101,7 @@
 
     <div class="container-fluid" id="resultContainer" style="display: none">
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2" id="flightContainer">
           <div class="row text-center">
             <h3>Flights</h3>
           </div>
@@ -107,7 +111,7 @@
           </div>
         </div>
     
-        <div class="col-sm-8">
+        <div class="col-sm-8" id="eventContainer">
           <div class="row text-center">
               <div class="col">
                 <h3>Events</h3>
@@ -176,7 +180,8 @@
           </div>
         </div>
     
-        <div class="col-sm-2">
+        <div class="col-sm-2" id="weatherContainer">
+            <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
                 <div class="row text-center">
                     <h3>Weather</h3>
                   </div>

@@ -12,7 +12,7 @@ $(document).ready(function () {
     var x
     var totPageCount
 
-    var amadeusAccessToken = "UpurWukJi99JxeE2EqTAfOOcSAsH"
+    var amadeusAccessToken = "Mh3HH0Y7V2uGzkSIfssldre5dfmg"
 
     var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
     var toCity = null;

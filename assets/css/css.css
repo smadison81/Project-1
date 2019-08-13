@@ -55,10 +55,13 @@ button {
 .card-title a{
   color: white;
 }
-/*#flightContainer {
-  position: fixed;
+#flightContainer {
+  position: absolute;
   left: 0;
-}*/
+}
+.flightsInfo{
+  color: white;
+}
 #eventContainer {
   margin-left: auto;
   margin-right: auto;

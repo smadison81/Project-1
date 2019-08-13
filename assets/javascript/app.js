@@ -10,7 +10,7 @@ $(document).ready(function () {
     var endDate
     var x
     var totPageCount
-    var amadeusAccessToken = "q1ALrqA4I69mO9hYtFMUCTGATR5N"
+    var amadeusAccessToken = "LMWpdN5IvM1SUrsgIMYW5APUIuPg"
     var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
     var toCity = null;
     var fromCity = null;
@@ -22,7 +22,6 @@ $(document).ready(function () {
         CLASS_ACTIVE = "active",
         CLASS_SIBLING_ACTIVE = "active-sibling",
         DATA_KEY = "pagination";
-
 
     $(".pagination").each(initPagination);
 
@@ -80,7 +79,6 @@ $(document).ready(function () {
             $(this).find(".next").removeClass(CLASS_DISABLED);
         }
     }
-
 
     $('#trippinButton').click(function () {
         event.preventDefault();
@@ -151,7 +149,6 @@ $(document).ready(function () {
             console.log(cityName)
 
 
-
             for (var i = 0; i < response.data.length; i++) {
 
                 if (moment(response.data[i].valid_date).unix() === moment(startDate).unix()) {
@@ -187,7 +184,6 @@ $(document).ready(function () {
                 var iconTemp = $("<figcaption>")
                 iconTemp.addClass("figure-caption")
                 iconTemp.html(weatherTemp[j])
-
 
                 var iconTempRange = $("<figcaption>")
                 iconTempRange.addClass("figure-caption")
@@ -245,7 +241,6 @@ $(document).ready(function () {
             console.log("button:" + totPageCount)
 
             for (var i = 0; i < response.events.length; i++) {
-
 
                 var a = $("<div class= card>") //this is the parent div
                 a.addClass("mb-3")
@@ -314,7 +309,6 @@ $(document).ready(function () {
         }
     }
 
-
     $('#trippinButton').click(function () {
         event.preventDefault();
         $('#resultContainer').css('display', 'block')
@@ -355,7 +349,6 @@ $(document).ready(function () {
 
     });
 
-
     function flightDisplay() {
         $.ajax({
             type: "get",
@@ -384,13 +377,12 @@ $(document).ready(function () {
 
             // get the current flight offer
             var flightOffer = flights.data[i];
-
-
+          
             for (var o = 0; o < flightOffer.offerItems.length; o++) {
 
                 // get the current offer item
                 var offerItem = flightOffer.offerItems[o];
-
+              
                 // read in the price, tax and calculate the total cost.
                 var price = parseFloat(offerItem.price.total);
                 var tax = parseFloat(offerItem.price.totalTaxes);
@@ -399,8 +391,6 @@ $(document).ready(function () {
                 // create a new html element to hold the flight details.
                 var departureFlightSection = document.createElement('div');
                 var returnFlightSection = document.createElement('div');
-
-
 
                 var departures = offerItem.services[0];
                 var returns = offerItem.services[1];
@@ -470,6 +460,41 @@ $(document).ready(function () {
 
     AirportInput("to", options)
     AirportInput("from", options)
-
+    //++++++++++++++++ SideBar ++++++++++++++++++++++++++++++++++++++
+    $('#filterbtn').click(function(){
+        if($(this).attr('state')==='unclicked'){
+          openNav();
+          $(this).attr('state','clicked');
+        } else{
+            closeNav();
+            $(this).attr('state','unclicked');
+        }
+    });
+    $('.closebtn').click(function(){
+        closeNav();
+        $('#filterbtn').attr('state','unclicked');
+    });
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      };
+      
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      };
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var dropdownContent = this.nextElementSibling;
+      if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+      } else {
+      dropdownContent.style.display = "block";
+      }
+      });
+    }
+    //++++++++++++++++ END +++++++++++++++++++++++++++
 
 })
+

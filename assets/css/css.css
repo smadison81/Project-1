@@ -25,7 +25,68 @@ button {
 .card {
   float: left;
   margin: 5px;
+  background: rgba(255, 255, 255, 0.6);
+  color: black;
 }
+/*+++++++++++++++++++ SideBar ++++++++++++++++++*/
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+  transition: 0.5s;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdownbtnContainer {
+  position: absolute;
+  top: 55px;;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 36px;
+  margin-left: 50px;
+}
+/*+++++++++++++++ END +++++++++++++++++++++*/
 .autocomplete-wrapper {
   position: relative;
 }
@@ -119,10 +180,6 @@ button {
   outline: solid 1px #00b6f2;
 }
 
-.card {
-  color: black;
-}
-
 .container {
   color: white;
 }
@@ -208,6 +265,10 @@ li.active a:hover {
 }
 .next:hover {
   text-decoration: underline;
+}
+
+.figure-img {
+  width: 50px;
 }
 
 @media (max-width: 767px) {
@@ -368,3 +429,4 @@ li.active a:hover {
     display: none;
   }
 }
+

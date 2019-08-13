@@ -3,7 +3,7 @@ $(document).ready(function () {
     toLong = null;
     toLat = null;
     cityName = null;
-    var amadeusAccessToken = "q1ALrqA4I69mO9hYtFMUCTGATR5N"
+    var amadeusAccessToken = "l7ts72mwLHm4McK2egcfff9qCfht"
     var webUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?origin="
     var toCity = null;
     var fromCity = null;
@@ -287,52 +287,79 @@ $(document).ready(function () {
             },
             success: function (json) {
 
-                console.log(json)
                 loadFlights(json)
+               
             }
         });
     }
 
     function loadFlights(flights) {
 
+        console.log(flights);
+        
         //loop over all of the flight data.
         for (var i = 0; i < flights.data.length; i++) {
 
             // get the current flight offer
             var flightOffer = flights.data[i];
 
-            // read in the price, tax and calculate the total cost.
-            var price = parseFloat(flightOffer.offerItems.price.total);
-            var tax = parseFloat(flightOffer.OfferItems.price.totalTaxes);
-            var totalPrice = price + tax;
 
-            // create a new html element to hold the flight details.
-            var flightSection = document.createElement('div');
+            for (var o = 0; o < flightOffer.offerItems.length; o++) {
 
-            // set the id to the flight offer id.
-            flightSection.setAttribute("id", flightOffer.id);
+                // get the current offer item
+                var offerItem = flightOffer.offerItems[o];
 
-            // get all of the flight segments.
-            var segments = flightOffer.offerItems.segments;
+                // read in the price, tax and calculate the total cost.
+                var price = parseFloat(offerItem.price.total);
+                var tax = parseFloat(offerItem.price.totalTaxes);
+                var totalPrice = price + tax;
 
-            // loop over the segments.
-            for (var j = 0; j <= segments.length; j++) {
+                // create a new html element to hold the flight details.
+                var departureFlightSection = document.createElement('div');
+                var returnFlightSection = document.createElement('div');
 
-                // get the current segment
-                var flightSegment = segments[j];
 
-                // set the inner html for with the current flight and segment information.
-                flightSection.innerHTML = `<div id='${flightOffer.id}'>
-                                        <div>Departure Location: ${flightSegment.departure.iataCode}</div>
-                                        <div>Departure time: ${flightSegment.departure.at}</div>
-                                        <hr />
-                                        <div>Arrival Location: ${flightSegment.arrival.iataCode}</div>
-                                        <div>Arrival time: ${flightSection.arrival.at}</div>
-                                        <div>Price per adult: ${totalPrice}</div>
-                                    </div>`;
+                var departures = offerItem.services[0];
+                var returns = offerItem.services[1];
+
+                // get the collection of services
+                for (var x = 0; x < departures.segments.length; x++) {
+                    
+                    // the actual flight segment is one level deeper.
+                    var departureFlightSegment = departures.segments[x].flightSegment;
+
+                    // set the inner html for with the current flight and segment information.
+                    departureFlightSection.innerHTML += `<div><h1>Departure Flight</h1>
+                                            <div>Departure Location: ${departureFlightSegment.departure.iataCode}</div>
+                                            <div>Departure time: ${departureFlightSegment.departure.at}</div>
+                                            <div>Arrival Location: ${departureFlightSegment.arrival.iataCode}</div>
+                                            <div>Arrival time: ${departureFlightSegment.arrival.at}</div>
+                                            <div>Price per adult: ${totalPrice}</div>
+                                            <hr />
+                                        </div>`;
+                }
 
                 // add the new flight section to the div in the html
-                document.getElementById('flight').append(flightSection);
+                document.getElementById('departures').append(departureFlightSection);
+
+                // get the collection of services
+                for (var x = 0; x < returns.segments.length; x++) {
+                    
+                    // the actual flight segment is one level deeper.
+                    var flightSegment = returns.segments[x].flightSegment;
+
+                    // set the inner html for with the current flight and segment information.
+                    returnFlightSection.innerHTML += `<div><h1>Return Flight</h1>
+                                            <div>Departure Location: ${flightSegment.departure.iataCode}</div>
+                                            <div>Departure time: ${flightSegment.departure.at}</div>
+                                            <div>Arrival Location: ${flightSegment.arrival.iataCode}</div>
+                                            <div>Arrival time: ${flightSegment.arrival.at}</div>
+                                            <div>Price per adult: ${totalPrice}</div>
+                                            <hr />
+                                        </div>`;
+                }
+                // add the new flight section to the div in the html
+                document.getElementById('returns').append(returnFlightSection);
             }
         }
     }

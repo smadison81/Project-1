@@ -40,7 +40,7 @@ $(document).ready(function () {
             var $parent = $(this).closest(".pagination");
             $parent.data(DATA_KEY, $parent.find("li").index(this));
             changePage.apply($parent);
-            eventDisplay(startDate, endDate, pageCount)
+            eventDisplay(startDate, endDate, pageCount,function(){})
         });
     }
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
             changePage.apply($parent);
         }
-        eventDisplay(startDate, endDate, x)
+        eventDisplay(startDate, endDate, x,function(){})
     }
 
     function changePage(currActive) {
@@ -353,6 +353,7 @@ $(document).ready(function () {
     }
 
     function createPagination() {
+        $("#pagelist").empty()
         for (var i = 1; i <= totPageCount; i++) {
             var a = $("<li>")
             if (i === 1) {

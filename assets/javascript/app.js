@@ -377,12 +377,12 @@ $(document).ready(function () {
 
             // get the current flight offer
             var flightOffer = flights.data[i];
-
+          
             for (var o = 0; o < flightOffer.offerItems.length; o++) {
 
                 // get the current offer item
                 var offerItem = flightOffer.offerItems[o];
-
+              
                 // read in the price, tax and calculate the total cost.
                 var price = parseFloat(offerItem.price.total);
                 var tax = parseFloat(offerItem.price.totalTaxes);
@@ -391,7 +391,6 @@ $(document).ready(function () {
                 // create a new html element to hold the flight details.
                 var departureFlightSection = document.createElement('div');
                 var returnFlightSection = document.createElement('div');
-
 
                 var departures = offerItem.services[0];
                 var returns = offerItem.services[1];

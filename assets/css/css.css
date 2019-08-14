@@ -393,8 +393,19 @@ li.active a:hover {
   }
 }
 
-@media (min-width: 768px) {
-
+@media (max-width: 768px) {
+  #flightContainer {
+    display: block;
+    position: relative;
+  }
+  #weatherContainer {
+    display: block;
+    position: relative;
+  }
+  #eventContainer {
+    display: block;
+    position: relative;
+  }
   li:first-child,
   li.active-sibling,
   li.active,

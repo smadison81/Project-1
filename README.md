@@ -1,4 +1,4 @@
-Trippin!
+<h1>Trippin!</h1>
 
 Team Captain America:	Ahmed Waheed, Stephen Madison, Duc Khang Nguyen
 
